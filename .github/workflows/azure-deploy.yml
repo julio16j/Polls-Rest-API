@@ -12,11 +12,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: azure/docker-login@v1
-      with:
-        login-server: docker.io
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-    - run: |
+    - name: docker login
+      env:
+        DOCKER_USER: ${{ secrets.REGISTRY_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: build and push image
+      run: |
         docker build . -t julio16j/poll-rest-api:latest
         docker push julio16j/poll-rest-api:latest
