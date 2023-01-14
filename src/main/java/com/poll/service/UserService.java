@@ -20,13 +20,11 @@ public class UserService {
 	}
 
 	public User create(UserDto user) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.save(user.toEntity());
 	}
 
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
-		
+		repository.deleteById(id);
 	}
 
 }
