@@ -19,8 +19,13 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: build and push image
+      env:
+        DB_HOST: ${{ secrets.GIT_DB_HOST }}
+        DB_NAME: ${{ secrets.GIT_DB_NAME }}
+        DB_USERNAME: ${{ secrets.GIT_DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.GIT_DB_PASSWORD }}
       run: |
-        docker build . -t julio16j/poll-rest-api:latest
+        docker build -t julio16j/poll-rest-api:latest --build-arg DB_HOST_ARG=$DB_HOST --build-arg DB_NAME_ARG=$DB_NAME --build-arg DB_USERNAME_ARG=$DB_USERNAME --build-arg DB_PASSWORD_ARG=$DB_PASSWORD .
         docker push julio16j/poll-rest-api:latest
     - uses: azure/webapps-deploy@v2
       with:
