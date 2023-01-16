@@ -1,13 +1,13 @@
 package com.poll.model.dto;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 import com.poll.model.entity.Poll;
 import com.poll.model.enums.StatusPollEnum;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import utils.DateUtils;
 
 @Data
 @NoArgsConstructor
@@ -24,8 +24,7 @@ public class PollDto {
 	public PollDto(Poll poll) {
 		id = poll.getId();
 		subject = poll.getSubject();
-		expirationDateTime = poll.getExpirationDateTime() == null ? null
-				: LocalDateTime.ofInstant(poll.getExpirationDateTime(), ZoneId.systemDefault());
+		expirationDateTime = DateUtils.fromInstant(poll.getExpirationDateTime());
 		status = poll.getStatus();
 	}
 }

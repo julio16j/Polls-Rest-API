@@ -2,7 +2,6 @@ package com.poll.service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +16,8 @@ import com.poll.model.dto.PollDto;
 import com.poll.model.entity.Poll;
 import com.poll.model.enums.StatusPollEnum;
 import com.poll.repository.PollRepository;
+
+import utils.DateUtils;
 
 @Service
 public class PollService {
@@ -47,7 +48,7 @@ public class PollService {
 		} else {
 			if (dateTime.getDate().isBefore(LocalDateTime.now())) {
 				throw new BadRequestException("Invalid Datetime");
-			} Instant instant = dateTime.getDate().toInstant(ZoneOffset.of(ZoneOffset.systemDefault().getId()));
+			} Instant instant = DateUtils.fromLocalDateTime(dateTime.getDate());
 			pollFounded.setExpirationDateTime(instant);
 		}
 		pollFounded.setStatus(StatusPollEnum.ONGOING);
@@ -59,6 +60,12 @@ public class PollService {
 		if (pollFounded.isEmpty()) {
 			throw new NotFoundException("Poll");
 		} return pollFounded.get();
+	}
+	
+	public Poll updatePoll (Poll poll) {
+		if (!repository.existsById(poll.getId())) {
+			throw new BadRequestException("You cannot update a not created poll");
+		} return repository.save(poll);
 	}
 
 }
