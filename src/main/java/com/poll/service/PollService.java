@@ -68,4 +68,9 @@ public class PollService {
 		} return repository.save(poll);
 	}
 
+	public List<Poll> getAllExpiredPolls() {
+		Instant instant = Instant.now();
+		return repository.getExpiredPollsByInstant(instant);
+	}
+
 }

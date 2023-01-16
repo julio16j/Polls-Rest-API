@@ -14,4 +14,8 @@ public class DateUtils {
 	public static Instant fromLocalDateTime (LocalDateTime localDateTime) {
 		return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
 	}
+	
+	public static long secondsFromLocalDateTime(LocalDateTime localDateTime) {
+		return fromLocalDateTime(localDateTime).getEpochSecond();
+	}
 }
