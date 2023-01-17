@@ -17,10 +17,12 @@ import com.poll.model.dto.UserDto;
 import com.poll.model.entity.User;
 import com.poll.service.UserService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("users")
+@Tag(name = "User Controller")
 public class UserController {
 	
 	@Autowired
