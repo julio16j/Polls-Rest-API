@@ -18,17 +18,20 @@ import com.poll.model.dto.LocalDateTimeDto;
 import com.poll.model.dto.PollDto;
 import com.poll.service.PollService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("polls")
+@Tag(name = "Poll Controller")
 public class PollController {
 	
 	@Autowired
 	private PollService service;
-
+	
 	@GetMapping
-	private ResponseEntity<List<PollDto>> getAllUsers () {
+	private ResponseEntity<List<PollDto>> getAllPolls () {
 		return ResponseEntity.ok(service.getAll());
 	}
 	
@@ -37,6 +40,7 @@ public class PollController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.create(poll));
 	}
 	
+	@Operation(summary = "Open poll by poll id and an optional dateTime")
 	@PostMapping("{id}")
 	private ResponseEntity<PollDto> openPoll (@PathVariable Long id, @RequestBody(required = false) LocalDateTimeDto dateTime) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.openPoll(id, dateTime));
